@@ -15,9 +15,7 @@ You might want to try running the models on CPU first. For that, in build.gradle
 
 You can use the provided models in app/src/main/assets, but if you want to generate the model yourself, refer to the convert script for each model in script_model folder.
 
-![](Screenshot1.jpg)
-![](Screenshot2.jpg)
-![](Screenshot3.jpg)
+<img src="Screenshot1.jpg" width="200" height="450"> <img src="Screenshot2.jpg" width="200" height="450"> <img src="Screenshot3.jpg" width="200" height="450"> 
 
 ### 1. Running on Android GPU:
 We need to follow these steps:
@@ -25,13 +23,13 @@ We need to follow these steps:
 
 The release torch version installed by pip will not work when generating vulkan-supported model. We need to build torch from source with vulkan enable.
 
-Install Vulkan SDK first : https://vulkan.lunarg.com/sdk/home#linux, then follow this link https://medium.com/repro-repo/build-pytorch-from-source-on-ubuntu-18-04-1c5556ca8fbf. In the install step, install torch with
+Install Vulkan SDK first : https://vulkan.lunarg.com/sdk/home#linux, then refer this link https://medium.com/repro-repo/build-pytorch-from-source-on-ubuntu-18-04-1c5556ca8fbf to build torch on your host machine, however, in the install step, enable vulkan with:
 
 ```USE_VULKAN=ON CC=clang CXX=clang++ python setup.py install```.
 
-Finishing by
+Finishing by:
 
-```python setup.py develop && python -c "import torch" ``` then
+```python setup.py develop && python -c "import torch" ``` then:
 
 ```pip install .```
 
@@ -41,7 +39,7 @@ After building and installing the built torch, we can convert model to torchscri
 
 * Build pytorch lib with vulkan support:
 
-Install Android NDK, SDK, Java beforehand. You should install NDK version r21e, the newer versions change the file hierachy so it's not compatible with the pytorch source.
+Install Android NDK, SDK, Java beforehand. You should install NDK version r21e, the newer versions change the file hierarchy so it's not compatible with the pytorch source.
 
 Then, clone the pytorch repo:
 
@@ -61,7 +59,7 @@ Vulkan model only works with old method ```Module.load```, so use this method to
 
 Mobilenet_v2 result:
 
-![](Screenshot4.jpg)
+<img src="Screenshot4.jpg" width="200" height="450">
 
 When trying yolov5 and detnet model, this error happened: 
 ```
