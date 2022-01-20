@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Vision App</string>
+    <string name="image_view">Image View</string>
+    <string name="run_model">Running the model...</string>
+    <string name="restart">Restart</string>
+    <string name="od">Object Detection</string>
+    <string name="ic">Image Classification</string>
+    <string name="hp">HandPose Estimation</string>
+</resources>
