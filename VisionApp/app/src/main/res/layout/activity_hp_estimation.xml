@@ -7,6 +7,22 @@
     android:background="@color/design_default_color_background"
     android:fitsSystemWindows="true">
 
+    <TextView
+        android:id="@+id/mode2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="672dp"
+        android:background="#F6D55C"
+        android:text="Mode"
+        android:textAllCaps="false"
+        android:textColor="#E31A1A"
+        android:textColorHighlight="#393131"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ViewStub
         android:id="@+id/hp_estimation_texture_view_stub"
         android:layout_width="match_parent"
@@ -27,6 +43,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/time2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="672dp"
+        android:background="#F6D55C"
+        android:text="ms"
+        android:textAllCaps="false"
+        android:textColor="#E31A1A"
+        android:textColorHighlight="#393131"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.899"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mode3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="672dp"
+        android:background="#F6D55C"
+        android:text="Mode"
+        android:textAllCaps="false"
+        android:textColor="#E31A1A"
+        android:textColorHighlight="#393131"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

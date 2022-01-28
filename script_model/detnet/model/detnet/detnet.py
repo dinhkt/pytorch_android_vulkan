@@ -92,38 +92,38 @@ class detnet_jit(torch.jit.ScriptModule):
         for _ in range(self.stacks):
             heat_map = self.hmap_0(x)
             hmaps.append(heat_map)
-            x = torch.cat([x, heat_map], dim=1)
+            # x = torch.cat([x, heat_map], dim=1)
 
-            dmap = self.dmap_0(x)
-            dmaps.append(dmap)
+            # dmap = self.dmap_0(x)
+            # dmaps.append(dmap)
 
-            # x = torch.cat([x, rearrange(dmap, 'b j l h w -> b (j l) h w')], dim=1)
-            x = torch.cat([x, 
-                dmap.reshape(dmap.shape[0],dmap.shape[1]*dmap.shape[2],
-                    dmap.shape[3],dmap.shape[4])], dim=1)
+            # # x = torch.cat([x, rearrange(dmap, 'b j l h w -> b (j l) h w')], dim=1)
+            # x = torch.cat([x, 
+            #     dmap.reshape(dmap.shape[0],dmap.shape[1]*dmap.shape[2],
+            #         dmap.shape[3],dmap.shape[4])], dim=1)
 
-            lmap = self.lmap_0(x)
-            lmaps.append(lmap)
-        hmap, dmap, lmap = hmaps[-1], dmaps[-1], lmaps[-1]
-
-        x = hmap.view((hmap.shape[0],hmap.shape[1],hmap.shape[2]*hmap.shape[3])).max(dim=2)[1]%32
-        y = hmap.view((hmap.shape[0],hmap.shape[1],hmap.shape[2]*hmap.shape[3])).max(dim=2)[1]//32
-        hmap_ = torch.cat((x.unsqueeze(1),y.unsqueeze(1)), dim=1)
-        hmap_ = hmap_.permute(0,2,1)        
+            # lmap = self.lmap_0(x)
+            # lmaps.append(lmap)
+        #hmap, dmap, lmap = hmaps[-1], dmaps[-1], lmaps[-1]
+        hmap=hmaps[-1]
+        # x = hmap.view((hmap.shape[0],hmap.shape[1],hmap.shape[2]*hmap.shape[3])).max(dim=2)[1]%32
+        # y = hmap.view((hmap.shape[0],hmap.shape[1],hmap.shape[2]*hmap.shape[3])).max(dim=2)[1]//32
+        # hmap_ = torch.cat((x.unsqueeze(1),y.unsqueeze(1)), dim=1)
+        # hmap_ = hmap_.permute(0,2,1)        
         
-        uv, argmax = self.map_to_uv(hmap)
+        # uv, argmax = self.map_to_uv(hmap)
 
-        delta = self.dmap_to_delta(dmap, argmax)
-        xyz = self.lmap_to_xyz(lmap, argmax)
+        # delta = self.dmap_to_delta(dmap, argmax)
+        # xyz = self.lmap_to_xyz(lmap, argmax)
 
         det_result = {
             "h_map": hmap,
-            "d_map": dmap,
-            "l_map": lmap,
-            "delta": delta,
-            "xyz": xyz,
-            "uv": uv,
-            "hmap_":hmap_
+            # "d_map": dmap,
+            # "l_map": lmap,
+            # "delta": delta,
+            # "xyz": xyz,
+            # "uv": uv,
+            # "hmap_":hmap_
         }
 
         return det_result
