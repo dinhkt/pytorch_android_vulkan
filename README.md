@@ -62,13 +62,13 @@ Vulkan model only works with old method ```Module.load```, so use this method to
 
 Mobilenet_v2 result:
 
-<img src="Screenshot4.jpg" width="200" height="450">
+<img src="Screenshot4.jpg" width="200" height="450"> <img src="Screenshot5.jpg" width="200" height="450">
 
 You can see that the inference time reduces for around 40%.
 
-However, when I try yolov5 and detnet model, this error happened: 
+However, when I try yolov5 model, this error happened: 
 ```
 RuntimeError: falseINTERNAL ASSERT FAILED at "/home/ncl/ktdinh/pytorch/aten/src/ATen/native/vulkan/ops/Tensor.cpp":255, please report a bug to PyTorch. Only Tensors with 1 <= dim <= 4 can be represented as a Vulkan Image!
 ```
-It seems like a limit of vulkan when not supporting tensor that has more than 4 dimensions. We can do nothing but wait for the future update!
+It seems like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. We could rewrite the model in a format that only use fewer-than-4 dimensional tensors, but that will be a hassle. Also currently vulkan backend doesn't support many operation, so better wait for the future update!
 
