@@ -70,5 +70,5 @@ However, when I try yolov5 model, this error happened:
 ```
 RuntimeError: falseINTERNAL ASSERT FAILED at "/home/ncl/ktdinh/pytorch/aten/src/ATen/native/vulkan/ops/Tensor.cpp":255, please report a bug to PyTorch. Only Tensors with 1 <= dim <= 4 can be represented as a Vulkan Image!
 ```
-It seems like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. We could rewrite the model in a format that only use fewer-than-4 dimensional tensors, but that will be a hassle. Also currently vulkan backend doesn't support many operation, so better wait for the future update!
+It seems like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. We could rewrite the model in a format that only use fewer-than-5 dimensional tensors, but that will be a hassle. Also currently vulkan backend doesn't support many operations, so better wait for the future update!
 
