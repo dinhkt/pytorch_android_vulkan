@@ -29,7 +29,7 @@ Install Vulkan SDK first : https://vulkan.lunarg.com/sdk/home#linux, then refer 
 
 Finishing by:
 
-```python setup.py develop && python -c "import torch" ``` then:
+```python setup.py develop ``` then:
 
 ```pip install .```
 
@@ -44,11 +44,11 @@ We also need to build the pytorch android lib that support vulkan.
 
 Install Android NDK, SDK, Java beforehand. You should install NDK version r21e, the newer versions change the file hierarchy so it's not compatible with the pytorch source.
 
-Then, clone the pytorch repo:
+Clone a new pytorch repo:
 
 ```git clone --recursive https://github.com/pytorch/pytorch```
 
-For some reasons, LiteModuleLoader has't support vulkan model, so we build the library without lite interpreter support:
+For some reasons, LiteModuleLoader has't support vulkan model, the vulkan models can only load successfully with old method ``` module.load ```. We need to build the library without lite interpreter support by:
 
 ```ANDROID_ABI=arm64-v8a USE_VULKAN=1 BUILD_LITE_INTERPRETER=0 ./scripts/build_android.sh```
 
@@ -60,7 +60,7 @@ Then copy the generated arrs to app/lib in android project folder and include it
 
 Vulkan model only works with old method ```Module.load```, so use this method to load the model in activity files.
 
-Mobilenet_v2 result:
+Result:
 
 <img src="Screenshot4.jpg" width="200" height="450"> <img src="Screenshot5.jpg" width="200" height="450">
 
@@ -70,5 +70,5 @@ However, when I try yolov5 model, this error happened:
 ```
 RuntimeError: falseINTERNAL ASSERT FAILED at "/home/ncl/ktdinh/pytorch/aten/src/ATen/native/vulkan/ops/Tensor.cpp":255, please report a bug to PyTorch. Only Tensors with 1 <= dim <= 4 can be represented as a Vulkan Image!
 ```
-It seems like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. We could rewrite the model in a format that only use fewer-than-5 dimensional tensors, but that will be a hassle. Also currently vulkan backend doesn't support many operations, so better wait for the future update!
+It seems like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. We could rewrite the model in a format that only use fewer-than-5 dimensional tensors, but that will be a hassle. Also, currently vulkan backend doesn't support many operations. Better wait for the future update!
 
