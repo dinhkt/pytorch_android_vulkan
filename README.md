@@ -1,7 +1,7 @@
 # pytorch_android
 
 ## Introduction
-In this project I implemented 3 models on Android with CPU/GPU:
+In this project I deployed 3 models on Android with CPU/GPU:
   - Image classification with mobilenet_v2
   - Object Detection with yolov5 
   - Handpose Estimation with detnet (The model and pretrained weight from https://github.com/MengHao666/Minimal-Hand-pytorch, with minor modification)
@@ -18,6 +18,8 @@ The ready-to-use models are in app/src/main/assets, if you want to generate the 
 <img src="Screenshot1.jpg" width="200" height="450"> <img src="Screenshot2.jpg" width="200" height="450"> <img src="Screenshot3.jpg" width="200" height="450"> 
 
 ### 1. Running on Android GPU:
+Vulkan runtime library on Android can support running DL operations on Android GPU, we need to build the Android libtorch and the model itself that can run with Vulkan.
+
 Follow these steps:
 * Prepare vulkan-supported model:
 
