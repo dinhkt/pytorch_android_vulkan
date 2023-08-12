@@ -1,5 +1,7 @@
 # pytorch_android
 
+
+
 ## Introduction
 In this project I deployed 3 models on Android with CPU/GPU:
   - Image classification with mobilenet_v2
@@ -17,15 +19,46 @@ The ready-to-use models are in app/src/main/assets, if you want to generate the 
 
 <img src="Screenshot1.jpg" width="200" height="450"> <img src="Screenshot2.jpg" width="200" height="450"> <img src="Screenshot3.jpg" width="200" height="450"> 
 
-### 1. Running on Android GPU:
+### 2. Running on Android GPU:
 Vulkan runtime library on Android can support running DL operations on Android GPU, we need to build the Android libtorch and the model itself that can run with Vulkan.
 
-Follow these steps:
-* Prepare vulkan-supported model:
-
+## Update:
+Recently I worked on this again so I share some experiences when installing.. \
 The release torch version installed by pip will not work when generating vulkan-supported models or even if it can generate, the models won't work. We need to build torch from source with vulkan enable and then use that torch to generate the models.
 
-Install Vulkan SDK first : https://vulkan.lunarg.com/sdk/home#linux, then refer this link https://medium.com/repro-repo/build-pytorch-from-source-on-ubuntu-18-04-1c5556ca8fbf to build torch on your host machine, however, in the install step, enable vulkan with:
+Environment:\
+  Ubuntu 18.04 \
+  clang 6.0.0\
+  Torch source code version: v2.0.0 ( by git checkout tags/v2.0.0)\
+  Vulkan SDK version: 1.3.216.0\
+  CUDA 11.7
+
+Install steps:
+
+Install Vulkan SDK first : https://vulkan.lunarg.com/sdk/home#linux. Download the tar file, unzip and then ```source ~/vulkan/1.x.yy.z/setup-env.sh```
+Replace x,y,z with your version
+
+Create separated conda environment:
+```conda create --name torch_vulkan python=3.8
+conda activate torch_vulkan
+conda install numpy pyyaml mkl mkl-include setuptools cmake cffi  typing typing_extension
+export CMAKE_PREFIX_PATH="$HOME/anaconda3/envs/torch_vulkan"
+sudo apt-get install libomp-dev
+```
+Then clone source code:
+```cd ~
+git clone --recursive https://github.com/pytorch/pytorch
+git checkout tags/v2.0.0 (can choose other torch version)
+git submodule update --init --recursive
+```
+Set CUDA env: (mine is 11.7)
+```export CUDA_NVCC_EXECUTABLE="/usr/local/cuda-11.7/bin/nvcc"
+export CUDA_HOME="/usr/local/cuda-11.7"
+export CUDNN_INCLUDE_PATH="/usr/local/cuda-11.7/include/"
+export CUDNN_LIBRARY_PATH="/usr/local/cuda-11.7/lib64/"
+export LIBRARY_PATH="/usr/local/cuda-11.7/lib64"
+```
+Then install
 
 ```USE_VULKAN=ON CC=clang CXX=clang++ python setup.py install```.
 
@@ -36,6 +69,8 @@ Finishing by:
 ```pip install .```
 
 Check torch version just built: ```python -c "import torch; print(torch.__version__)"```
+
+If any step fails, fix the problem, remove the ```build``` and rerun setup.py install
 
 After building and installing the built torch, we can convert model to torchscript vulkan model by specify ```backend=’vulkan’ ``` in ```optimize_for_mobile()``` ( see in the convert script)
 
@@ -72,5 +107,5 @@ However, when I try yolov5 model, this error happened:
 ```
 RuntimeError: falseINTERNAL ASSERT FAILED at "/home/ncl/ktdinh/pytorch/aten/src/ATen/native/vulkan/ops/Tensor.cpp":255, please report a bug to PyTorch. Only Tensors with 1 <= dim <= 4 can be represented as a Vulkan Image!
 ```
-It seems like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. We could rewrite the model in a format that only use fewer-than-5 dimensional tensors, but that will be a hassle. Also, currently vulkan backend doesn't support many operations. Better wait for the future update!
+It looks like a limitation of vulkan when not supporting tensor that has more than 4 dimensions. Also, currently vulkan backend doesn't support many operations. Let's wait for the future update!
 
