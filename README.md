@@ -10,7 +10,7 @@ In this project I deployed 3 models on Android with CPU/GPU:
 
 This work follows the deployment workflow: https://pytorch.org/mobile/home/ and https://pytorch.org/tutorials/prototype/vulkan_workflow.html
 
-## Running step
+## Install:
 ### 1. Running on Android CPU:
 
 You might want to try running the models on CPU first. To do that, in build.gradle file in app folder, comment lines 48,49 and uncomment lines 50,51 to use the official release pytorch lib. In the activity files, use LiteModuleLoader to load the .ptl model. 
@@ -80,11 +80,11 @@ After building and installing the built torch, we can convert model to torchscri
 
 We also need to build the pytorch android lib that support vulkan. Follow this: https://pytorch.org/mobile/android/#building-pytorch-android-from-source. My detail installation is below:
 
-My environment: \
+Dependencies versions: \
 Android NDK r21e \
-Java version: 17 Openjdk\
-gradle 8.2
-
+Java version: 11 Openjdk\
+gradle 6.8.2\
+( I experienced problems when compiling using Java 17 and gradle >=7.0 so I tried these and it works.)   
 Setting the environment variable like below. Whereas the ANDROID_HOME is where you download and unpack the android commandline-tools (unzip the file, rename into ```tools```, and move to ```cmdline-tools``` folder). My ```~/.bashrc``` file will have this:\
 ```
 ANDROID_HOME="/hdd/ktdinh/AndroidSDK"
