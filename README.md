@@ -23,8 +23,10 @@ The ready-to-use models are in app/src/main/assets, if you want to generate the 
 Vulkan runtime library on Android can support running DL operations on Android GPU, we need to build the Android libtorch and the model itself that can run with Vulkan.
 
 ## Update:
-Recently I worked on this again so I share some experiences when installing.. \
+*Recently I worked on this again so I share some experiences when compiling pytorch and libtorch for vulkan. *
+
 The release torch version installed by pip will not work when generating vulkan-supported models or even if it can generate, the models won't work. We need to build torch from source with vulkan enable and then use that torch to generate the models.
+* Build and install pytorch that support vulkan:
 
 Environment:\
   Ubuntu 18.04 \
@@ -76,14 +78,35 @@ After building and installing the built torch, we can convert model to torchscri
 
 * Build pytorch lib with vulkan support:
 
-We also need to build the pytorch android lib that support vulkan.
+We also need to build the pytorch android lib that support vulkan. Follow this: https://pytorch.org/mobile/android/#building-pytorch-android-from-source. My detail installation is below:
 
+My environment: \
+Android NDK r21e \
+Java version: 17 Openjdk\
+gradle 8.2
 
-Install Android NDK, SDK, Java beforehand. You should install NDK version r21e, the newer versions change the file hierarchy so it's not compatible with the pytorch source.
+Setting the environment variable like below. Whereas the ANDROID_HOME is where you download and unpack the android commandline-tools (unzip the file, rename into ```tools```, and move to ```cmdline-tools``` folder). My ```~/.bashrc``` file will have this:\
+```
+ANDROID_HOME="/hdd/ktdinh/AndroidSDK"
+ANDROID_NDK="/hdd/ktdinh/Download/android-ndk-r21e"
+GRADLE_HOME="/hdd/ktdinh/Download/gradle-8.2"
+JAVA_HOME="/usr/lib/jvm/java-1.17.0-openjdk-amd64"
+export ANDROID_HOME
+export ANDROID_NDK
+export GRADLE_HOME
+export JAVA_HOME
+export PATH=/hdd/ktdinh/Download/cmake-3.26.5-linux-x86_64/bin:$PATH
+export PATH=$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH
+```
 
 Clone a new pytorch repo:
 
 ```git clone --recursive https://github.com/pytorch/pytorch```
+Checkout to the torch version that we also use to generate the model: (mine is torch 2.0.0)
+```
+git checkout tags/v2.0.0 (can choose other torch version)
+git submodule update --init --recursive
+```
 
 For some reasons, LiteModuleLoader has't support vulkan model, the vulkan models can only load successfully with old method ``` module.load ```. We need to build the library without lite interpreter support by:
 
