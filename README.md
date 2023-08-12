@@ -33,7 +33,8 @@ Environment:\
   clang 6.0.0\
   Torch source code version: v2.0.0 ( by git checkout tags/v2.0.0)\
   Vulkan SDK version: 1.3.216.0\
-  CUDA 11.7
+  CUDA 11.7\
+  cmake 3.26.5\
 
 Install steps:
 
@@ -89,8 +90,8 @@ Setting the environment variable like below. Whereas the ANDROID_HOME is where y
 ```
 ANDROID_HOME="/hdd/ktdinh/AndroidSDK"
 ANDROID_NDK="/hdd/ktdinh/Download/android-ndk-r21e"
-GRADLE_HOME="/hdd/ktdinh/Download/gradle-8.2"
-JAVA_HOME="/usr/lib/jvm/java-1.17.0-openjdk-amd64"
+GRADLE_HOME="/hdd/ktdinh/Download/gradle-6.8.2"
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 export ANDROID_HOME
 export ANDROID_NDK
 export GRADLE_HOME
