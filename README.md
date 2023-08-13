@@ -85,7 +85,7 @@ Dependencies versions: \
 Android NDK r21e \
 Java version: 11 Openjdk\
 gradle 6.8.2\
-( I experienced problems when compiling using Java 17 and gradle >=7.0 so I tried these and it works.)   
+( I experienced problems when compiling using Java 17 and gradle >=7.0 so I tried these and it worked.)   
 Setting the environment variable like below. Whereas the ANDROID_HOME is where you download and unpack the android commandline-tools (unzip the file, rename into ```tools```, and move to ```cmdline-tools``` folder). My ```~/.bashrc``` file will have this:\
 ```
 ANDROID_HOME="/hdd/ktdinh/AndroidSDK"
@@ -109,17 +109,15 @@ git checkout tags/v2.0.0 (can choose other torch version)
 git submodule update --init --recursive
 ```
 
-For some reasons, LiteModuleLoader has't support vulkan model, the vulkan models can only load successfully with old method ``` module.load ```. We need to build the library without lite interpreter support by:
+Then build the libtorch for your target architecture (for e.g arm64-v8a) by:
 
-```ANDROID_ABI=arm64-v8a USE_VULKAN=1 BUILD_LITE_INTERPRETER=0 ./scripts/build_android.sh```
-
-```USE_VULKAN=1 BUILD_LITE_INTERPRETER=0  ./scripts/build_pytorch_android.sh arm64-v8a```
+```USE_VULKAN=1   ./scripts/build_pytorch_android.sh arm64-v8a```
 
 Then copy the generated arrs to app/lib in android project folder and include it in build.gradle file.
 
 * Use the model
 
-Vulkan model only works with old method ```Module.load```, so use this method to load the model in activity files.
+Vulkan model can be loaded with method ```LiteModuleLoader.load```, so use this method to load the model in activity files.
 
 Result:
 
