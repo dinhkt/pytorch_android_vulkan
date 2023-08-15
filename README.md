@@ -3,7 +3,7 @@
 
 
 ## Introduction
-In this project I deployed 3 models on Android with CPU/GPU:
+In this project I deploy 3 models on Android and inference with CPU/GPU:
   - Image classification with mobilenet_v2
   - Object Detection with yolov5 
   - Handpose Estimation with detnet (The model and pretrained weight from https://github.com/MengHao666/Minimal-Hand-pytorch, with minor modification)
@@ -30,7 +30,7 @@ The release torch version installed by pip will not work when generating vulkan-
 
 Environment:\
   Ubuntu 18.04 \
-  clang 6.0.0\
+  clang 12.0\
   Torch source code version: v2.0.0 ( by git checkout tags/v2.0.0)\
   Vulkan SDK version: 1.3.216.0\
   CUDA 11.7\
@@ -42,16 +42,19 @@ Install Vulkan SDK first : https://vulkan.lunarg.com/sdk/home#linux. Download th
 Replace x,y,z with your version
 
 Create separated conda environment:
-```conda create --name torch_vulkan python=3.8
+```
+conda create --name torch_vulkan python=3.8
 conda activate torch_vulkan
-conda install numpy pyyaml mkl mkl-include setuptools cmake cffi  typing typing_extension
+conda install numpy pyyaml mkl mkl-include setuptools cmake cffi  typing typing_extensions
 export CMAKE_PREFIX_PATH="$HOME/anaconda3/envs/torch_vulkan"
 sudo apt-get install libomp-dev
 ```
 Then clone source code:
-```cd ~
+```
+cd ~
 git clone --recursive https://github.com/pytorch/pytorch
 git checkout tags/v2.0.0 (can choose other torch version)
+git submodule sync
 git submodule update --init --recursive
 ```
 Set CUDA env: (mine is 11.7)
@@ -106,6 +109,7 @@ Clone a new pytorch repo:
 Checkout to the torch version that we also use to generate the model: (mine is torch 2.0.0)
 ```
 git checkout tags/v2.0.0 (can choose other torch version)
+git submodule sync
 git submodule update --init --recursive
 ```
 
